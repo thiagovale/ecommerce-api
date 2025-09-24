@@ -26,12 +26,17 @@ export class AuthService {
     };
   }
 
-  async register(data: RegisterDTO, isAdmin: boolean): Promise<Partial<User>> {
+  async register(
+    data: RegisterDTO,
+    isAdminParam: string,
+  ): Promise<Partial<User>> {
     const userAlreadyExists = await this.userService.findByEmail(data.email);
 
     if (userAlreadyExists) {
       throw new UnauthorizedException('User already exists');
     }
+
+    const isAdmin = isAdminParam === 'true';
 
     const user = await this.userService.create({
       email: data.email,

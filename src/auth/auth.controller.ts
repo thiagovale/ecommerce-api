@@ -15,7 +15,7 @@ export class AuthController {
   @Post('register')
   async register(
     @Body() body: RegisterDTO,
-    @Query('isAdmin') isAdmin: boolean,
+    @Query('isAdmin') isAdmin: string,
   ): Promise<Partial<User>> {
     return this.authService.register(body, isAdmin);
   }

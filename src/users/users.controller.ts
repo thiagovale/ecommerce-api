@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Get, UseGuards, Request } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from './interfaces/user.interface';
 import { AuthGuard } from 'src/auth/auth.guard';
@@ -17,7 +17,8 @@ export class UsersController {
   @UseGuards(AuthGuard, RoleGuard)
   @Roles('ADMIN')
   @Get('list')
-  async findAll(): Promise<User[]> {
+  async findAll(@Request() req): Promise<User[]> {
+    console.log('usuario = ', req.user);
     return this.usersService.findAll();
   }
 }

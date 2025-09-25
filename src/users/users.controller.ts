@@ -1,9 +1,9 @@
-import { Controller, Get, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { User } from './interfaces/user.interface';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { RoleGuard } from 'src/auth/role.guard';
 import { Roles } from 'src/auth/role.decorator';
+import { User } from '@prisma/client';
 
 @Controller('users')
 export class UsersController {
@@ -17,8 +17,7 @@ export class UsersController {
   @UseGuards(AuthGuard, RoleGuard)
   @Roles('ADMIN')
   @Get('list')
-  async findAll(@Request() req): Promise<User[]> {
-    console.log('usuario = ', req.user);
+  async findAll(): Promise<User[]> {
     return this.usersService.findAll();
   }
 }

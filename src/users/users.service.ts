@@ -2,10 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { CreateUserDTO } from './dto/users.dto';
 import { PrismaService } from 'src/database/prisma.service';
 import { User } from '@prisma/client';
+import { EmailService } from 'src/email/email.service';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly emailService: EmailService,
+  ) {}
 
   async findAll(): Promise<User[]> {
     return this.prisma.user.findMany();
@@ -18,8 +22,21 @@ export class UsersService {
   }
 
   async create(data: CreateUserDTO): Promise<User> {
-    return this.prisma.user.create({
+    const user = await this.prisma.user.create({
       data,
     });
+
+    this.emailService
+      .sendConfirmationEmail({
+        userId: user.id.toString(),
+        email: user.email,
+        name: user.name,
+        confirmationLink: `http://localhost:3000/auth/confirm/${user.id}`,
+      })
+      .catch((error) => {
+        console.error('Error sending confirmation email:', error);
+      });
+
+    return user;
   }
 }

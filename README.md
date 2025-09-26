@@ -1,98 +1,234 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🛒 E-commerce API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+API RESTful completa para e-commerce desenvolvida com NestJS, incluindo autenticação JWT, gerenciamento de produtos, carrinho de compras e sistema de filas com Redis.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 📋 Funcionalidades
 
-## Description
+### 🔐 Autenticação & Autorização
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- Login/Registro com JWT
+- Confirmação de conta via email (simulado)
+- Controle de acesso baseado em roles (ADMIN/CLIENT)
+- Middleware de autenticação para rotas protegidas
 
-## Project setup
+### 📦 Gestão de Produtos
 
-```bash
-$ npm install
+- ✅ Listagem pública com paginação e filtros
+- ✅ CRUD completo (apenas admins)
+- ✅ Controle de estoque
+- ✅ Validação de dados
+
+### 🛒 Carrinho de Compras
+
+- ✅ Adicionar/remover produtos
+- ✅ Atualizar quantidades
+- ✅ Carrinho persistido no banco
+- ✅ Validação de estoque
+- ✅ Acesso apenas para usuários autenticados
+
+### 📧 Sistema de Email
+
+- ✅ Fila de emails com Redis e Bull
+- ✅ Email de confirmação no cadastro
+- ✅ Processamento assíncrono
+
+## 🚀 Tecnologias
+
+- **Framework:** NestJS
+- **Linguagem:** TypeScript
+- **Banco de Dados:** PostgreSQL
+- **ORM:** Prisma
+- **Autenticação:** JWT
+- **Cache/Fila:** Redis + Bull
+- **Containerização:** Docker + Docker Compose
+
+## 📁 Estrutura do Projeto
+
+```
+src/
+├── auth/              # Autenticação e autorização
+├── users/             # Gestão de usuários
+├── products/          # Gestão de produtos
+├── carts/             # Carrinho de compras
+├── email/             # Sistema de filas de email
+├── database/          # Configuração Prisma
+├── redis/             # Configuração Redis
+└── main.ts           # Ponto de entrada
 ```
 
-## Compile and run the project
+## 🛠️ Instalação e Execução
+
+### Pré-requisitos
+
+- Docker e Docker Compose
+
+### 🐳 Executar com Docker (Recomendado)
+
+1. **Clone o repositório:**
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+git clone <url-do-repositorio>
+cd ecommerce-api
 ```
 
-## Run tests
+2. **Execute com Docker:**
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+docker-compose up --build -d
 ```
 
-## Deployment
+3. **A aplicação estará disponível em:**
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+- API: http://localhost:3000
+- PostgreSQL: localhost:5432
+- Redis: localhost:6379
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+## 🔧 Variáveis de Ambiente
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+```env
+DATABASE_URL="postgresql://user:password@localhost:5432/ecommerce_db"
+JWT_SECRET="seu-jwt-secret-super-seguro"
+REDIS_HOST="localhost"
+REDIS_PORT="6379"
+NODE_ENV="development"
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+#### Registrar usuário
 
-## Resources
+```http
+POST /auth/register?isAdmin=false
+Content-Type: application/json
 
-Check out a few resources that may come in handy when working with NestJS:
+{
+  "name": "João Silva",
+  "email": "joao@example.com",
+  "password": "123456"
+}
+```
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+#### Login
 
-## Support
+```http
+POST /auth/login
+Content-Type: application/json
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+{
+  "email": "joao@example.com",
+  "password": "123456"
+}
 
-## Stay in touch
+# Resposta:
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### 📦 Produtos
 
-## License
+#### Listar produtos (público)
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+```http
+GET /products?page=1&limit=10&search=iphone
+```
+
+#### Criar produto (admin apenas)
+
+```http
+POST /products
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "name": "iPhone 15",
+  "description": "Último modelo do iPhone",
+  "price": 999.99,
+  "stock": 50
+}
+```
+
+#### Atualizar produto (admin apenas)
+
+```http
+PUT /products/1
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "name": "iPhone 15 Pro",
+  "price": 1099.99,
+  "stock": 25
+}
+```
+
+#### Deletar produto (admin apenas)
+
+```http
+DELETE /products/1
+Authorization: Bearer <token>
+```
+
+### 🛒 Carrinho
+
+#### Ver carrinho
+
+```http
+GET /carts
+Authorization: Bearer <token>
+```
+
+#### Adicionar item ao carrinho
+
+```http
+POST /carts/items
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "productId": 1,
+  "quantity": 2
+}
+```
+
+#### Atualizar quantidade
+
+```http
+PUT /carts/items/1
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "quantity": 5
+}
+```
+
+#### Remover item
+
+```http
+DELETE /carts/items/1
+Authorization: Bearer <token>
+```
+
+#### Limpar carrinho
+
+```http
+DELETE /carts
+Authorization: Bearer <token>
+```
+
+### 👥 Usuários (admin apenas)
+
+#### Listar usuários
+
+```http
+GET /users/list
+Authorization: Bearer <token>
+```
+
+## 🗃️ Banco de Dados
+
+O projeto utiliza Prisma como ORM com PostgreSQL. As principais entidades são:
+
+- **User**: Usuários do sistema
+- **Product**: Produtos do e-commerce
+- **Cart**: Carrinho de compras
+- **CartItem**: Itens do carrinho
